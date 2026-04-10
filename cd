@@ -1,0 +1,77 @@
+/*
+ * ============================================================
+ *  main.c  |  MEMBER 1: Base Structure
+ *  - Define maze grid, source, destination
+ *  - Print maze layout
+ *  - Call DFS and BFS solvers
+ * ============================================================
+ */
+#include "maze.h"
+#include <stdio.h>
+
+/*
+ * Sample 5x5 Maze:  0=path  1=wall
+ *
+ *   S . # . .
+ *   # . # . #
+ *   # . . . #
+ *   # # # . #
+ *   . . . . D
+ */
+int maze[ROWS][COLS] = {
+    {0, 0, 1, 0, 0},
+    {1, 0, 1, 0, 1},
+    {1, 0, 0, 0, 1},
+    {1, 1, 1, 0, 1},
+    {0, 0, 0, 0, 0}};
+
+/* Prints the maze: S=Start D=Dest #=Wall .=Open */
+void printMaze(int srcR, int srcC, int dstR, int dstC)
+{
+    printf("\n=== MAZE LAYOUT ===\n");
+    printf("(S=Start  D=Dest  #=Wall  .=Path)\n\n");
+    for (int r = 0; r < ROWS; r++)
+    {
+        printf("  ");
+        for (int c = 0; c < COLS; c++)
+        {
+            if (r == srcR && c == srcC)
+                printf("S ");
+            else if (r == dstR && c == dstC)
+                printf("D ");
+            else if (maze[r][c] == 1)
+                printf("# ");
+            else
+                printf(". ");
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    int srcRow = 0, srcCol = 0; /* top-left     */
+    int dstRow = 4, dstCol = 4; /* bottom-right */
+
+    printf("============================================\n");
+    printf("       MAZE SOLVER  (DFS + BFS)            \n");
+    printf("============================================\n");
+
+    printMaze(srcRow, srcCol, dstRow, dstCol);
+
+    printf("--------------------------------------------\n");
+    printf(" [1] DFS - Depth First Search\n");
+    printf("--------------------------------------------\n");
+    solveDFS(maze, srcRow, srcCol, dstRow, dstCol);
+
+    printf("\n--------------------------------------------\n");
+    printf(" [2] BFS - Breadth First Search (Shortest)\n");
+    printf("--------------------------------------------\n");
+    solveBFS(maze, srcRow, srcCol, dstRow, dstCol);
+
+    printf("\n============================================\n");
+    printf("                 Done!\n");
+    printf("============================================\n");
+    return 0;
+}
